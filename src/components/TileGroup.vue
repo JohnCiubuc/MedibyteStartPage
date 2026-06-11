@@ -6,7 +6,7 @@
       <input v-model="filter" class="group-filter" type="text" placeholder="Filter…" />
     </div>
     <div v-if="filteredTiles.length" class="tiles-grid">
-      <a v-for="tile in filteredTiles" :key="tile.label" :href="tile.url" target="_blank" rel="noopener" class="tile">
+      <a v-for="tile in filteredTiles" :key="tile.label" :href="tile.url" class="tile">
         <div class="tile-icon">
           <img :src="tile.icon" :alt="tile.label" class="tile-img" />
         </div>
@@ -85,9 +85,9 @@ const filteredTiles = computed(() => {
 
 .tiles-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   gap: var(--tile-gap);
-  max-height: calc(var(--tile-icon-size) * 2.8);
+  max-height: calc(var(--tile-icon-size) * 3.8);
   overflow-y: auto;
   padding: 4px;
 }
@@ -150,12 +150,12 @@ const filteredTiles = computed(() => {
   color: var(--text-muted);
   text-align: center;
   line-height: 1.3;
-  width: var(--tile-width);
+  width: var(--tile-width)*2;
   white-space: normal;
   overflow: visible;
   text-overflow: unset;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   transition: color 0.18s;

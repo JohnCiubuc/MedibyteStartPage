@@ -6,8 +6,6 @@
         v-for="tile in tiles"
         :key="tile.label"
         :href="tile.url"
-        target="_blank"
-        rel="noopener noreferrer"
         class="tile"
       >
 <div class="tile-icon">
@@ -48,7 +46,7 @@ defineProps({
   flex-wrap: wrap;
 
   /* gap: var(--tile-gap); */
-  gap: 80px;
+  gap: 32px;
 }
 /* Tighten filter input label on short screens */
 @media (max-height: 800px) {

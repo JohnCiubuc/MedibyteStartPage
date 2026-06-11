@@ -43,12 +43,13 @@ const showHelp = ref(false)
 
 const bangs = [
   { prefix: 'r',  label: 'Radiopaedia',         example: 'r emphysema',         url: q => `https://radiopaedia.org/search?q=${q}` },
-  // { prefix: 'a',  label: 'eAnatomy (iMaios)',    example: 'a shoulder',          url: q => `https://www.imaios.com/en/search?q=${q}` },
-  // { prefix: 'm',  label: 'MDCalc',               example: 'm wells score',       url: q => `https://www.mdcalc.com/search#q=${q}` },
+  { prefix: 'o',  label: 'OpenEvidence',    example: 'o hot quadrate sign pathophys',          url: q => `https://www.openevidence.com/ask?query=${q}` },
+  { prefix: 'g',  label: 'Google Scholar',               example: 'g HCC treatment 2026',       url: q => 'https://scholar.google.com/scholar?q=${q}' },
   // { prefix: 'g',  label: 'Google',               example: 'g pneumothorax',      url: q => `https://www.google.com/search?q=${q}` },
   // { prefix: 'yt', label: 'YouTube',              example: 'yt radiology review', url: q => `https://www.youtube.com/results?search_query=${q}` },
   // { prefix: 'w',  label: 'Wikipedia',            example: 'w aortic stenosis',   url: q => `https://en.wikipedia.org/wiki/Special:Search?search=${q}` },
-  // { prefix: 'p',  label: 'PubMed',               example: 'p lung nodule CT',    url: q => `https://pubmed.ncbi.nlm.nih.gov/?term=${q}` },
+  // 
+  { prefix: 'p',  label: 'PubMed',               example: 'p uroepithelial carcinoma',    url: q => `https://pubmed.ncbi.nlm.nih.gov/?term=${q}` },
 ]
 
 function resolve(raw) {
@@ -78,7 +79,7 @@ function onSubmit() {
   position: relative;
   width: 100%;
   max-width: 580px;
-  margin-bottom: 20px;
+  margin-bottom: 4px;
 
   margin-left: auto;
   margin-right: auto;
@@ -130,7 +131,6 @@ function onSubmit() {
 }
 
 .hint {
-  margin-top: 8px;
   font-size: 11px;
   color: var(--text-dim);
   font-family: 'JetBrains Mono', monospace;

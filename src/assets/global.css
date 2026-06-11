@@ -13,9 +13,9 @@
   --accent:       #4a9ea6;
   --accent-glow:  rgba(74, 158, 166, 0.12);
 
-  --tile-icon-size: 128px;
+  --tile-icon-size: 64px;
   --tile-icon-font: 26px;
-  --tile-width:     86px;
+  --tile-width:     64px;
   --tile-gap:       10px;
   --main-padding:   48px 24px 32px;
   --main-gap:       16px;
@@ -35,18 +35,6 @@
   }
 }
 
-/* Very short screens (landscape phones, small laptops ~600px) */
-@media (max-height: 620px) {
-  :root {
-    --tile-icon-size: 128px;
-    --tile-icon-font: 18px;
-    --tile-width:     58px;
-    --tile-gap:       6px;
-    --main-padding:   16px 24px 12px;
-    --main-gap:       8px;
-    --card-padding:   10px 14px 12px;
-  }
-}
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
