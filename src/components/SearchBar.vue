@@ -68,7 +68,7 @@ function resolve(raw) {
 
 function onSubmit() {
   if (query.value.trim()) {
-    window.open(resolve(query.value), '_blank')
+    window.location = resolve(query.value)
     query.value = ''
   }
 }
