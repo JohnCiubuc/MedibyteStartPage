@@ -5,10 +5,18 @@
       <h1 class="title">Medibyte Start Page</h1>
       <p class="version">
         <span class="pip" aria-hidden="true" />
-        <button class="learn-more" @click="showVersion = !showVersion">v1.0.1</button>
+        <button class="learn-more" @click="showVersion = !showVersion">v1.0.2</button>
       </p>
       <div v-if="showVersion" class="help-panel">
-        <p class="help-title">v1.0.1 — What's new</p>
+        <p class="help-title">v1.0.2 — What's new</p>
+        <ul class="version-list">
+          <li>Integrated the MSK MRI Atlas by Alex Freitas, MD</li>
+          <li>eAnatomy Loose Bang module search</li>
+          <li>Populated additional Rad Assistant tiles</li>
+          <li>Added UHSTX Remote Access Tile</li>
+          <li>Removed MSK MRI Atlas tile</li>
+        </ul>
+        <p class="help-title">v1.0.1</p>
         <ul class="version-list">
           <li>Links open in-page rather than in a new tab</li>
           <li>Fixed spacing and size of tiles</li>
@@ -21,6 +29,7 @@
       <QuickAccess :tiles="soloTiles" />
       <TileGroup eyebrow="Reference Library" title="eAnatomy" :tiles="eAnatomyTiles" />
       <TileGroup eyebrow="Rad Assistant Quick Links" title="Rad Assistant" :tiles="radAssistantTiles" />
+<MSKMriTileGroup eyebrow="The MSK MRI Atlas by Alex Freitas, MD" title="MSK MRI Atlas" />
     </main>
     <AppFooter />
   </div>
@@ -32,6 +41,7 @@ import SearchBar from '@/components/SearchBar.vue'
 import TileGroup from '@/components/TileGroup.vue'
 import QuickAccess from '@/components/QuickAccess.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import MSKMriTileGroup from '@/components/MSKMriTileGroup.vue'
 
 const showVersion = ref(false)
 const eAnatomyTiles = [
@@ -58,15 +68,25 @@ const radAssistantTiles = [
   { label: 'Peds Elbow Fractures', icon: 'https://radiologyassistant.nl/assets/elbow-fractures-in-children/a50979768b5d3a_critoe2.jpg', url: 'https://radiologyassistant.nl/pediatrics/hip/fractures-in-children-1' },
   { label: 'TI-RADS', icon: 'https://radiologyassistant.nl/assets/_1a-tab-tirads-landscape.jpg', url: 'https://radiologyassistant.nl/head-neck/ti-rads/ti-rads' },
   { label: 'Thoracolumbar Fractures', icon: 'https://radiologyassistant.nl/assets/1-tek-intro-c-1709283624.jpg', url: 'https://radiologyassistant.nl/musculoskeletal/spine/ao-classification' },
+  { label: 'Bowel Wall Thickening', icon: 'https://radiologyassistant.nl/assets/bowel-wall-thickening-ct-pattern/a5343fb7609022_7-normal-enhancement.jpg', url: 'https://radiologyassistant.nl/abdomen/bowel/bowel-wall-thickening-ct-pattern' },
+  { label: 'Child Abuse Trauma', icon: 'https://radiologyassistant.nl/assets/diagnostic-imaging-in-child-abuse/a50979771710d1_corner.jpg', url: 'https://radiologyassistant.nl/pediatrics/child-abuse/diagnostic-imaging-in-child-abuse' },
+  { label: 'Adrenal Lesions', icon: 'https://radiologyassistant.nl/assets/adrenals-lesion-characterization/a5c9619ed4a566_____Pheo-1.jpg', url: 'https://radiologyassistant.nl/abdomen/adrenals/lesion-characterization-1' },
+  { label: 'Gallbladder Obstruction', icon: 'https://radiologyassistant.nl/assets/4-tab-gallstone-complication-1574505520.png', url: 'https://radiologyassistant.nl/abdomen/biliary-system/lk-jg' },
+  { label: 'Bile Duct Pathology', icon: 'https://radiologyassistant.nl/assets/biliary-ducts-pathology/a50979796b82f9_Afbeelding-8.jpg', url: 'https://radiologyassistant.nl/abdomen/biliary-system/biliary-duct-pathology' },
+  { label: 'Gallbladder Thickening', icon: 'https://radiologyassistant.nl/assets/gallbladder-wall-thickening/a509797711ac0b_Fig-2.jpg', url: 'https://radiologyassistant.nl/abdomen/biliary-system/gallbladder-wall-thickening' },
+  { label: 'Ovarian Cysts', icon: 'https://radiologyassistant.nl/assets/ovarian-cysts-common-lesions/a509797a73751a_TEK-ovulation.jpg', url: 'https://radiologyassistant.nl/abdomen/unsorted/common-ovarian-cystic-lesions' },
+  { label: 'LI-RADS', icon: 'https://radiologyassistant.nl/assets/tab-3f-features.jpg', url: 'https://radiologyassistant.nl/abdomen/liver/li-rads' },
+  { label: 'Acute Pancreatitis', icon: 'https://radiologyassistant.nl/assets/pancreas-acute-pancreatitis-2-0/a5542781188628_1TAB.png', url: 'https://radiologyassistant.nl/abdomen/pancreas/acute-pancreatitis' },
 ]
 
 const soloTiles = [
-  { label: 'MSK MRI', icon: 'https://freitasrad.net/images/mainImage.jpg', url: 'https://freitasrad.net/' },
   { label: 'Rad-Call', icon: 'https://external-content.duckduckgo.com/ip3/rad-call.com.ico', url: 'https://rad-call.com/app.html' },
   { label: '9GAG', icon: 'https://cdn-icons-png.flaticon.com/512/2111/2111316.png', url: 'https://9gag.com' },
   { label: 'OpenEvidence', icon: 'https://play-lh.googleusercontent.com/Mjei293xYv3eexylcUY-9AM33LUElOPHdn9BOuUD4mjY5pcnL0-8nppNdTPJptgJJczT', url: 'https://www.openevidence.com/' },
   { label: 'Qualified Health', icon: 'https://www.finsmes.com/wp-content/uploads/2026/03/Qualified-Health.jpeg', url: 'https://chat.qualifiedhealthai.com/' },
   { label: 'Outlook', icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Microsoft_Outlook_Icon_%282025%E2%80%93present%29.svg/1280px-Microsoft_Outlook_Icon_%282025%E2%80%93present%29.svg.png', url: 'https://outlook.office365.com/mail/' },
+  { label: 'UHS Anywhere', icon: 'https://external-content.duckduckgo.com/ip3/www.universityhealth.com.ico', url: 'https://anywhere.uhstx.com/logon/LogonPoint/index.html' },
+
 ]
 </script>
 
@@ -177,6 +197,7 @@ const soloTiles = [
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .help-table {

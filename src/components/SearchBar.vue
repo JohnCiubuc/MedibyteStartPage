@@ -4,7 +4,7 @@
       v-model="query"
       class="search-input"
       type="text"
-      placeholder="Search the web…"
+      placeholder="Search the web or Loose Bang it…"
       autofocus
     />
     <button class="search-btn" type="submit" aria-label="Search">
@@ -22,6 +22,8 @@
 </p>
 <div v-if="showHelp" class="help-panel">
   <p class="help-title">Loose Bangs — quick prefixes</p>
+  <p class="help-title">Inspired by <a href="https://duckduckgo.com/bangs">DuckDuckGo</a></p>
+
   <table class="help-table">
     <tbody>
       <tr v-for="bang in bangs" :key="bang.prefix">
@@ -43,9 +45,9 @@ const showHelp = ref(false)
 
 const bangs = [
   { prefix: 'r',  label: 'Radiopaedia',         example: 'r emphysema',         url: q => `https://radiopaedia.org/search?q=${q}` },
+  { prefix: 'e',  label: 'eAnatomy Modules',               example: 'e abdomen',      url: q => `https://www.imaios.com/en/imaios-search/(search_text)/${q}/(category)/human/(type)/anatomy-modules/(page)/1` },
   { prefix: 'o',  label: 'OpenEvidence',    example: 'o hot quadrate sign pathophys',          url: q => `https://www.openevidence.com/ask?query=${q}` },
-  { prefix: 'g',  label: 'Google Scholar',               example: 'g HCC treatment 2026',       url: q => 'https://scholar.google.com/scholar?q=${q}' },
-  // { prefix: 'g',  label: 'Google',               example: 'g pneumothorax',      url: q => `https://www.google.com/search?q=${q}` },
+  { prefix: 'g',  label: 'Google Scholar',               example: 'g HCC treatment 2026',       url: q => `https://scholar.google.com/scholar?q=${q} `},
   // { prefix: 'yt', label: 'YouTube',              example: 'yt radiology review', url: q => `https://www.youtube.com/results?search_query=${q}` },
   // { prefix: 'w',  label: 'Wikipedia',            example: 'w aortic stenosis',   url: q => `https://en.wikipedia.org/wiki/Special:Search?search=${q}` },
   // 
