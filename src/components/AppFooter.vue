@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    &copy; John Ciubuc 2026 &nbsp;·&nbsp; Medibyte
+    &copy; John Ciubuc 2026 &nbsp;·&nbsp; The Wet Read
   </footer>
 </template>
 

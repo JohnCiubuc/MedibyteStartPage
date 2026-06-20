@@ -16,24 +16,24 @@
   --tile-icon-size: 64px;
   --tile-icon-font: 26px;
   --tile-width:     64px;
-  --tile-gap:       10px;
+  --tile-gap:       0px;
   --main-padding:   48px 24px 32px;
   --main-gap:       16px;
   --card-padding:   20px 22px 22px;
 }
 
 /* Short screens (laptops, ~768px tall) */
-@media (max-height: 800px) {
-  :root {
-    --tile-icon-size: 128px;
-    --tile-icon-font: 22px;
-    --tile-width:     72px;
-    --tile-gap:       8px;
-    --main-padding:   28px 24px 20px;
-    --main-gap:       12px;
-    --card-padding:   14px 18px 16px;
-  }
-}
+/* @media (max-height: 800px) { */
+/*   :root { */
+/*     --tile-icon-size: 95px; */
+/*     --tile-icon-font: 22px; */
+/*     --tile-width:     72px; */
+/*     --tile-gap:       12px; */
+/*     --main-padding:   28px 24px 20px; */
+/*     --main-gap:       12px; */
+/*     --card-padding:   14px 18px 16px; */
+/*   } */
+/* } */
 
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

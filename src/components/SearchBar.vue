@@ -4,7 +4,7 @@
       v-model="query"
       class="search-input"
       type="text"
-      placeholder="Search the web or Loose Bang it…"
+      placeholder="Search the web, filter modules, or just let Loose (Bang)…"
       autofocus
     />
     <button class="search-btn" type="submit" aria-label="Search">
@@ -38,14 +38,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+
+const emit = defineEmits(['queryChanged'])
 
 const query    = ref('')
 const showHelp = ref(false)
 
+watch(query, (val) => {
+  emit('queryChanged', val)
+})
+
 const bangs = [
   { prefix: 'r',  label: 'Radiopaedia',         example: 'r emphysema',         url: q => `https://radiopaedia.org/search?q=${q}` },
   { prefix: 'e',  label: 'eAnatomy Modules',               example: 'e abdomen',      url: q => `https://www.imaios.com/en/imaios-search/(search_text)/${q}/(category)/human/(type)/anatomy-modules/(page)/1` },
+  { prefix: 'm',  label: 'MRI Safety Search',               example: 'm ivc filter',      url: q => `https://www.mrisafety.com/TMDL_list.php?qs=${q}&criteria=or&orderby=alist_description` },
+
   { prefix: 'o',  label: 'OpenEvidence',    example: 'o hot quadrate sign pathophys',          url: q => `https://www.openevidence.com/ask?query=${q}` },
   { prefix: 'g',  label: 'Google Scholar',               example: 'g HCC treatment 2026',       url: q => `https://scholar.google.com/scholar?q=${q} `},
   // { prefix: 'yt', label: 'YouTube',              example: 'yt radiology review', url: q => `https://www.youtube.com/results?search_query=${q}` },
@@ -81,7 +89,7 @@ function onSubmit() {
   position: relative;
   width: 100%;
   max-width: 580px;
-  margin-bottom: 4px;
+  /* margin-bottom: 4px; */
 
   margin-left: auto;
   margin-right: auto;
@@ -133,10 +141,11 @@ function onSubmit() {
 }
 
 .hint {
-  font-size: 11px;
+  font-size: 8px;
   color: var(--text-dim);
   font-family: 'JetBrains Mono', monospace;
   text-align: center;
+  margin-top: -10px;
 }
 
 .learn-more {
@@ -144,7 +153,7 @@ function onSubmit() {
   border: none;
   color: var(--accent);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   cursor: pointer;
   padding: 0;
   margin-left: 4px;

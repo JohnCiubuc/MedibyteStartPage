@@ -25,8 +25,8 @@ defineProps({
 
 <style scoped>
 .quick-access {
-  width: 100%;
-  margin-top: 4px;
+  width: 85%;
+  margin: 4px;
 }
 
 .section-eyebrow {
@@ -41,23 +41,26 @@ defineProps({
 }
 
 .tiles-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-
-  /* gap: var(--tile-gap); */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 32px;
 }
-/* Tighten filter input label on short screens */
-@media (max-height: 800px) {
-  .card-header { margin-bottom: 10px; }
-  .section-eyebrow { margin-bottom: 2px; }
-}
 
-@media (max-height: 620px) {
-  .card-header { margin-bottom: 6px; }
-  .group-filter { padding: 5px 10px; font-size: 11px; }
+@media (max-width: 600px) {
+  .tiles-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
+/* Tighten filter input label on short screens */
+/* @media (max-height: 800px) { */
+/*   .card-header { margin-bottom: 10px; } */
+/*   .section-eyebrow { margin-bottom: 2px; } */
+/* } */
+
+/* @media (max-height: 620px) { */
+/*   .card-header { margin-bottom: 6px; } */
+/*   .group-filter { padding: 5px 10px; font-size: 11px; } */
+/* } */
 
 .tile {
   flex: 0 0 auto;

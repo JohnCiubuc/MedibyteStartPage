@@ -3,7 +3,6 @@
     <span class="section-eyebrow">{{ eyebrow }}</span>
     <div class="card-header">
       <h2 class="card-title">{{ title }}</h2>
-      <input v-model="filter" class="group-filter" type="text" placeholder="Filter…" />
     </div>
     <div v-if="filteredTiles.length" class="tiles-grid">
       <a v-for="tile in filteredTiles" :key="tile.label" :href="tile.url" class="tile">
@@ -16,20 +15,22 @@
     <p v-else class="no-results">No tiles match "{{ filter }}"</p>
   </section>
 </template>
-
 <script setup>
-import { ref, computed } from 'vue'
-
+import { computed } from 'vue'
 const props = defineProps({
   eyebrow: { type: String, default: '' },
   title: { type: String, required: true },
   tiles: { type: Array, required: true },
+  filter: { type: String, default: '' },
 })
-
-const filter = ref('')
 const filteredTiles = computed(() => {
-  const q = filter.value.toLowerCase().trim()
-  return q ? props.tiles.filter(t => t.label.toLowerCase().includes(q)) : props.tiles
+  const q = props.filter.toLowerCase().trim()
+  return q
+    ? props.tiles.filter(t =>
+        t.label.toLowerCase().includes(q) ||
+        (t.keywords && t.keywords.toLowerCase().includes(q))
+      )
+    : props.tiles
 })
 </script>
 
@@ -85,7 +86,7 @@ const filteredTiles = computed(() => {
 
 .tiles-grid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: var(--tile-gap);
   max-height: calc(var(--tile-icon-size) * 3.8);
   overflow-y: auto;
@@ -112,6 +113,7 @@ const filteredTiles = computed(() => {
   align-items: center;
   text-decoration: none;
   gap: 8px;
+  padding: 4px;
 }
 
 .tile-icon {
@@ -159,6 +161,7 @@ const filteredTiles = computed(() => {
   -webkit-box-orient: vertical;
   overflow: hidden;
   transition: color 0.18s;
+  margin-bottom: 10px;
 }
 
 .tile:hover .tile-label { color: var(--text-primary); }

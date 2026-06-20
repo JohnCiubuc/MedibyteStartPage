@@ -5,7 +5,7 @@
     <!-- ── Tile grid view ── -->
     <template v-if="!activePart">
       <div class="card-header">
-        <!-- <h2 class="card-title">{{ title }}</h2> -->
+        <h2 class="card-title">{{ title }}</h2>
         <!-- <input v-model="filter" class="group-filter" type="text" placeholder="Filter…" /> -->
       </div>
 
@@ -54,26 +54,23 @@ import MriAtlasViewer from '@/components/MriAtlasViewer.vue'
 const props = defineProps({
   eyebrow: { type: String, default: '' },
   title:   { type: String, default: 'MSK MRI Atlas' },
+  tiles: { type: Array, required: true },
+  filter: { type: String, default: '' },
 })
 
 // ─── MSK body parts ──────────────────────────────────────────────────────────
 // Adjust maxNumber per part to match the actual slice counts on the server.
-const tiles = [
-  { label: 'Knee',     icon: 'https://freitasrad.net/images/MR_4.jpg',     maxNumber: 83 },
-  { label: 'Shoulder', icon: 'https://freitasrad.net/images/shoulder_sag2.jpg', maxNumber: 79 },
-  { label: 'Shoulder_Arthro', icon: 'https://freitasrad.net/pages/atlas/Shoulder_Arthro/29.jpg', maxNumber: 46 },
-  { label: 'Ankle',    icon: 'https://freitasrad.net/images/anarrs.jpg',    maxNumber: 47 },
-  { label: 'Elbow',    icon: 'https://freitasrad.net/images/elbow2.jpg',    maxNumber: 62 },
-  { label: 'Wrist',    icon: 'https://freitasrad.net/images/wrist_cor_T1.jpg',    maxNumber: 45 },
-  { label: 'Hip',      icon: 'https://freitasrad.net/images/hip3.jpg',      maxNumber: 97 },
-]
 
 // ─── Filter ──────────────────────────────────────────────────────────────────
 // 
-const filter = ref('')
 const filteredTiles = computed(() => {
-  const q = filter.value.toLowerCase().trim()
-  return q ? tiles.filter(t => t.label.toLowerCase().includes(q)) : tiles
+  const q = props.filter.toLowerCase().trim()
+  return q
+    ? props.tiles.filter(t =>
+        t.label.toLowerCase().includes(q) ||
+        (t.keywords && t.keywords.toLowerCase().includes(q))
+      )
+    : props.tiles
 })
 
 // ─── Viewer state ────────────────────────────────────────────────────────────
@@ -155,12 +152,12 @@ function closeViewer() {
   border: none;
   cursor: pointer;
   gap: 8px;
-  padding: 0;
+  padding: 4px;
 }
-
 .tile-icon {
-  width: var(--tile-icon-size, 64px);
-  height: var(--tile-icon-size, 64px);
+  width: var(--tile-icon-size);
+  height: var(--tile-icon-size);
+  font-size: var(--tile-icon-font);
   background: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -201,6 +198,7 @@ function closeViewer() {
   text-align: center;
   line-height: 1.3;
   transition: color 0.18s;
+  margin-bottom: 10px;
 }
 .tile:hover .tile-label { color: var(--text-primary); }
 
@@ -255,5 +253,16 @@ function closeViewer() {
 }
 
 .learn-more:hover { opacity: 0.75; }
+.tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: var(--tile-gap);
+  max-height: calc(var(--tile-icon-size) * 3.8);
+  overflow-y: auto;
+  padding: 4px;
+}
 
+.tiles-grid::-webkit-scrollbar { width: 4px; }
+.tiles-grid::-webkit-scrollbar-track { background: transparent; }
+.tiles-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 </style>
