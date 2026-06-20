@@ -21,7 +21,7 @@
           <li>Mobile-friendly interface</li>
           <li>Unified search - also searches the modules below as you type</li>
           <li>Moved Rad Assistant below the MSK Atlas</li>
-          <li>Added QGenda, RADPrimer, CaseStacks, ACGME Case Logs, and Radiographics quick access</li>
+          <li>Added QGenda, RADPrimer, CaseStacks, ACGME Case Logs, AnkiWeb, and Radiographics quick access</li>
           <li>Removed Rad-Call and 9Gag quick access</li>
           <li>Added Rad-Call quick links</li>
           <li>New Innovations quick access added</li>
@@ -80,14 +80,14 @@ const eAnatomyTiles = [
 ]
 
 const radCallTiles = [
-  { label: 'Neuroradiology', icon: 'https://rad-call.com/assets/tile-neuro.png', url: 'https://rad-call.com/app.html#neuro', keywords: 'neuro brain spine head' },
-  { label: 'Chest', icon: 'https://rad-call.com/assets/tile-chest.png', url: 'https://rad-call.com/app.html#chest', keywords: 'thorax lung pulmonary thoracic' },
-  { label: 'Abdomen', icon: 'https://rad-call.com/assets/tile-body.png', url: 'https://rad-call.com/app.html#body', keywords: 'abdominal pelvis gi gastrointestinal body' },
-  { label: 'MSK', icon: 'https://rad-call.com/assets/tile-msk.png', url: 'https://rad-call.com/app.html#msk', keywords: 'musculoskeletal bone joint orthopedic ortho' },
-  { label: 'Ultrasound', icon: 'https://rad-call.com/assets/tile-us.png', url: 'https://rad-call.com/app.html#us', keywords: 'sonography sono us doppler' },
-  { label: 'Pediatrics', icon: 'https://rad-call.com/assets/tile-peds.png', url: 'https://rad-call.com/app.html#peds', keywords: 'peds pediatric children kids' },
-  { label: 'Contrast Rxn / PreMed', icon: 'https://www.acr.org/_next/image?url=https%3A%2F%2Fedge.sitecorecloud.io%2Famericancoldf5f-acrorgf92a-productioncb02-3650%2Fmedia%2FACR%2FImages%2FLogos%2F1x1%2FContrast-Manual.jpg%3Fh%3D1200%26iar%3D0%26w%3D1200&w=3200&q=75', url: 'https://rad-call.com/app.html#contrast', keywords: 'allergy allergic reaction premedication anaphylaxis iodinated' },
-  { label: 'MRI Safety', icon: 'https://www.mrisafety.com/images/BraccoLogo100.png', url: 'https://www.mrisafety.com/TMDL_list.php?orderby=alist_description', keywords: 'implant pacemaker device compatibility screening' },
+  { label: 'Neuroradiology', icon: 'https://rad-call.com/assets/tile-neuro.png', url: 'https://rad-call.com/app.html#neuro', keywords: 'neuro brain spine head stroke aspects mca perfusion cervical spine ligamentous trauma thoracolumbar ao rigid hematoma mandib maxillofacial neck temporal orbit sinusitis odontogenic mouth tooth peritonsillar tonsil retropharyngeal abscess epiglottitis salivary gland otitis mastoiditis lemierre angioedema infection cord dural sinus intracranial pituitary PRES shunt lumbar disc' },
+  { label: 'Chest', icon: 'https://rad-call.com/assets/tile-chest.png', url: 'https://rad-call.com/app.html#chest', keywords: 'thorax lung pulmonary thoracic aorta aortic cardiac pericard diaphragm pneumonia infection pleural dissection pe embolism ild uip nsip fleischner ggo ground glass opacity edema ards aspiration' },
+  { label: 'Abdomen', icon: 'https://rad-call.com/assets/tile-body.png', url: 'https://rad-call.com/app.html#body', keywords: 'abdominal pelvis gi gastrointestinal body aast liver renal kidney spleen splenic bladder rupture pancreas bowel hollow viscus pregnancy gunshot appendicitis adrenal washout ischemia obstruction gallbladder biliary diverticulitis ectopic epiploic omental infarct hernia ovarian torsion pancreatitis volvulus' },
+  { label: 'MSK', icon: 'https://rad-call.com/assets/tile-msk.png', url: 'https://rad-call.com/app.html#msk', keywords: 'musculoskeletal bone joint orthopedic ortho acetabular ankle shoulder clavicle compartment humerus forearm arm elbow foot hand wrist knee tibia fibula pelvic femur humerus scapula nec fasc osteomyelitis arthritis fracture' },
+  { label: 'Ultrasound', icon: 'https://rad-call.com/assets/tile-us.png', url: 'https://rad-call.com/app.html#us', keywords: 'sonography sono us doppler carotid ica stenosis adnexal cyst ovarian hydronephrosis kidney renal liver ruq transplant dvt ob retained conception retroperitoneal transplant testicular scrotal torsion tips dips' },
+  { label: 'Pediatrics', icon: 'https://rad-call.com/assets/tile-peds.png', url: 'https://rad-call.com/app.html#peds', keywords: 'peds pediatric children kids lines tubes ivh intraventricular hemorrhage pyloric stenosis intussusception malrotation volvulus developmental dysplasia hip scfe slipped capital femoral epiphysis hydronephrosis kidney renal salter harris elbow critoe forearm arm fracture nat non accidental trauma' },
+  { label: 'Contrast Rxn / PreMed', icon: 'https://www.acr.org/_next/image?url=https%3A%2F%2Fedge.sitecorecloud.io%2Famericancoldf5f-acrorgf92a-productioncb02-3650%2Fmedia%2FACR%2FImages%2FLogos%2F1x1%2FContrast-Manual.jpg%3Fh%3D1200%26iar%3D0%26w%3D1200&w=3200&q=75', url: 'https://rad-call.com/app.html#contrast', keywords: 'allergy allergic reaction premedication anaphylaxis iodinated contrast acr' },
+  { label: 'MRI Safety', icon: 'https://www.mrisafety.com/images/BraccoLogo100.png', url: 'https://www.mrisafety.com/TMDL_list.php?orderby=alist_description', keywords: 'implant pacemaker device compatibility screening mri safety' },
 ]
 
 const radAssistantTiles = [
@@ -114,6 +114,7 @@ const soloTiles = [
 
   { label: 'RADPrimer', icon: 'https://3.bp.blogspot.com/-PTnXz9zohzM/WG4SabW5-0I/AAAAAAAAI58/vmoD9bUhDQA7zxvzI9T-bQUo_BiyX1-qQCLcB/s1600/elsevier-logo.jpg', url: 'https://app.radprimer.com/curriculum' },
   { label: 'CaseStacks', icon: 'https://img.sur.ly/favicons/c/casestacks.com.ico', url: 'https://casestacks.com/dashboard' },
+  { label: 'AnkiWeb', icon: 'https://images.icon-icons.com/3053/PNG/512/anki_macos_bigsur_icon_190391.png', url: 'https://ankiweb.net/decks' },
   { label: 'OpenEvidence', icon: 'https://thewetread.com/oe.png', url: 'https://www.openevidence.com/' },
   { label: 'Qualified Health', icon: 'https://www.finsmes.com/wp-content/uploads/2026/03/Qualified-Health.jpeg', url: 'https://chat.qualifiedhealthai.com/' },
   { label: 'UHS Anywhere', icon: 'https://external-content.duckduckgo.com/ip3/www.universityhealth.com.ico', url: 'https://anywhere.uhstx.com/logon/LogonPoint/index.html' },
