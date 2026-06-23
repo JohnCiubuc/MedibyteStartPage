@@ -77,7 +77,8 @@ defineProps({
   width: var(--tile-icon-size);
   height: var(--tile-icon-size);
   font-size: var(--tile-icon-font);
-  background: var(--bg-raised);
+  /* background: var(--bg-raised); */
+  background: #2e3952;
   border: 1px solid var(--border);
   border-radius: 14px;
   display: flex;
@@ -109,7 +110,7 @@ defineProps({
   color: var(--text-muted);
   text-align: center;
   line-height: 1.3;
-  max-width: 80px;
+  max-width: 90px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

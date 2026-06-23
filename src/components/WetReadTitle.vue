@@ -86,6 +86,9 @@
       <p class="timestamp">{{ displayTime }}</p>
     </div>
   </div>
+<!-- <p class="subtitle"> -->
+<!--   Keeping your reads <i>wet</i> and your list <b>dry</b> -->
+<!-- </p> -->
 </template>
  
 <script setup>
@@ -329,5 +332,12 @@ onUnmounted(() => {
   .the { font-size: 0.7rem; margin-bottom: 0.32rem; }
   .hairline { display: none; }
   .timestamp { display: none; }
+}
+.subtitle {
+  font-size: 8px;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  text-align: center;
+  margin-top: -10px;
 }
 </style>
