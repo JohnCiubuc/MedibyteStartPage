@@ -2,22 +2,61 @@
   <div class="page">
     <div class="scanlines" aria-hidden="true" />
     <main class="main">
-      <WetReadTitle/>
-      <!-- <h1 class="title">The Wet Read</h1> -->
-      <!-- <h2 class="title_small">So wet that you can feel it...</h2> -->
-      <SearchBar @queryChanged="searchChange"  />
-      <QuickAccess :tiles="soloTiles" />
-      <TileGroup eyebrow="Anatomical Reference Library" title="eAnatomy - Your anatomical atlas for everything anatomical" :tiles="eAnatomyTiles" :filter="searchQuery"/>
-      <TileGroup eyebrow="Rad-Call Quick Links" title="Rad-Call - Need recommendations or measurements?" :tiles="radCallTiles" :filter="searchQuery"/>
-      <MSKMriTileGroup eyebrow="The MSK MRI Atlas by Alex Freitas, MD" title="View integrated MRIs right here" :tiles="MSKTiles" :filter="searchQuery"/>
-      <TileGroup eyebrow="Rad Assistant Quick Links" title="Rad Assistant" :tiles="radAssistantTiles"  :filter="searchQuery"/>
+<WetReadTitle :currentMode="activeMode" @modeChange="activeMode = $event" />
+
+<!-- then conditionally render your views: -->
+<template v-if="activeMode === 'quickaccess'">
+  <Transition name="fade-slide" appear>
+    <SearchBar @queryChanged="searchChange" />
+  </Transition>
+  <Transition name="fade-slide" appear>
+    <QuickAccess :tiles="soloTiles" />
+  </Transition>
+  <Transition name="fade-slide" appear>
+    <TileGroup eyebrow="Anatomical Reference Library"
+      title="eAnatomy - Your anatomical atlas for everything anatomical" :tiles="eAnatomyTiles"
+      :filter="searchQuery" />
+  </Transition>
+  <Transition name="fade-slide" appear>
+    <TileGroup eyebrow="Rad-Call Quick Links" title="Rad-Call - Need recommendations or measurements?"
+      :tiles="radCallTiles" :filter="searchQuery" />
+  </Transition>
+  <Transition name="fade-slide" appear>
+    <MSKMriTileGroup eyebrow="The MSK MRI Atlas by Alex Freitas, MD" title="View integrated MRIs right here"
+      :tiles="MSKTiles" :filter="searchQuery" />
+  </Transition>
+  <Transition name="fade-slide" appear>
+    <TileGroup eyebrow="Rad Assistant Quick Links" title="Rad Assistant" :tiles="radAssistantTiles"
+      :filter="searchQuery" />
+  </Transition>
+  <Transition name="fade-slide" appear>
+    <TileGroup eyebrow="The wettest journal articles"
+      title="Yeah, I know you can't change this list but trust me, they'll come in handy" :tiles="articleTiles" />
+  </Transition>
+  </template>
+<template v-else-if="activeMode === 'followup'">
+  <Transition name="fade-slide" appear>
+      <p class="feedback">
+        Any questions, suggestions, or improvements?
+        <a href="mailto:ciubuc@uthscsa.edu" class="feedback-link">Email me</a>
+      </p>
+  </Transition>
+</template>
+      <p class="feedback">
+        Any questions, suggestions, or improvements?
+        <a href="mailto:ciubuc@uthscsa.edu" class="feedback-link">Email me</a>
+      </p>
+<CounterAPI />
       <p class="version">
-        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.0.3</button>
+        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.0.4</button>
       </p>
       <div v-if="showVersion" class="help-panel">
         <p class="help-title">v1.0.4</p>
         <ul class="version-list">
           <li>Added Pediatric Bone-XRay Quick Access</li>
+          <li>Added Diagnostic Utility of CT and Fluoroscopic Esophagography</li>
+          <li>Added How to write a good report</li>
+          <li>Added email link</li>
         </ul>
         <p class="help-title">v1.0.3</p>
         <ul class="version-list">
@@ -60,9 +99,18 @@ import TileGroup from '@/components/TileGroup.vue'
 import QuickAccess from '@/components/QuickAccess.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import MSKMriTileGroup from '@/components/MSKMriTileGroup.vue'
+import CounterAPI from '@/components/CounterAPI.vue'
 
 const showVersion = ref(false)
 const searchQuery = ref('')
+const activeMode = ref('')
+activeMode.value = "quickaccess";
+
+const articleTiles = [
+  { label: 'CT Esophagography is Better than Fluoro', icon: 'https://thewetread.com/ajr.png', url: 'https://ajronline.org/doi/10.2214/AJR.19.22166', keywords: 'barium esophgagram ct no' },
+  { label: 'Stop Writing Bad Reports', icon: 'https://external-content.duckduckgo.com/ip3/www.rsna.org.ico', url: 'https://pubs.rsna.org/doi/10.1148/rg.2020200020', keywords: 'write a good report' },
+    ]
+
 const eAnatomyTiles = [
   { label: 'MRI Brain', icon: 'https://cdn1.imaios.com/i/images/4/2/6/0/310624-3-eng-GB/f9296ee2c558-brain3dmri.png?q=75&w=230&s=6419caa48600b24d59e4ff706f7222d3', url: 'https://www.imaios.com/en/e-anatomy/brain/mri-brain', keywords: 'neuro neurology neuroanatomy head skull cranial' },
   { label: 'CT Brain', icon: 'https://cdn1.imaios.com/i/images/5/8/5/0/310585-3-eng-GB/0a8f1dd62341-brain-ct.png?q=75&w=230&s=e2205d9962bc65dab16ad83e39523668', url: 'https://www.imaios.com/en/e-anatomy/brain/ct-brain', keywords: 'neuro neurology neuroanatomy head skull cranial' },
@@ -310,8 +358,30 @@ function searchChange(query) {
 }
 
 .version-list li::before {
-  content: '—';
+  content: '-';
   color: var(--accent);
   margin-right: 8px;
+}
+.feedback {
+  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  text-align: center;
+}
+.feedback-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.feedback-link:hover { opacity: 0.75; }
+/* in your global styles or the parent component */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
 }
 </style>
