@@ -34,23 +34,38 @@
       title="Yeah, I know you can't change this list but trust me, they'll come in handy" :tiles="articleTiles" />
   </Transition>
   </template>
+
 <template v-else-if="activeMode === 'followup'">
   <Transition name="fade-slide" appear>
-      <p class="feedback">
-        Any questions, suggestions, or improvements?
-        <a href="mailto:ciubuc@uthscsa.edu" class="feedback-link">Email me</a>
-      </p>
+    <StudyFollowup/>
   </Transition>
 </template>
+
+<template v-else-if="activeMode === 'caselog'">
+  <Transition name="fade-slide" appear>
+    <CaseLog/>
+  </Transition>
+</template>
+
       <p class="feedback">
         Any questions, suggestions, or improvements?
         <a href="mailto:ciubuc@uthscsa.edu" class="feedback-link">Email me</a>
       </p>
 <CounterAPI />
       <p class="version">
-        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.0.4</button>
+        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.0.6</button>
       </p>
       <div v-if="showVersion" class="help-panel">
+        <p class="help-title">v1.0.6</p>
+        <ul class="version-list">
+          <li>Community Caselog Module</li>
+        </ul>
+        <p class="help-title">v1.0.5</p>
+        <ul class="version-list">
+          <li>Added animations to The Wet Read title</li>
+          <li>Transition pages and animations between Quick Access and Study Followup</li>
+          <li>Study Followup module</li>
+        </ul>
         <p class="help-title">v1.0.4</p>
         <ul class="version-list">
           <li>Added Pediatric Bone-XRay Quick Access</li>
@@ -100,6 +115,8 @@ import QuickAccess from '@/components/QuickAccess.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import MSKMriTileGroup from '@/components/MSKMriTileGroup.vue'
 import CounterAPI from '@/components/CounterAPI.vue'
+import StudyFollowup from '@/components/StudyFollowup.vue'
+import CaseLog from '@/components/CaseLog.vue'
 
 const showVersion = ref(false)
 const searchQuery = ref('')

@@ -1,14 +1,8 @@
 <template>
   <div class="title-band" :class="{ lit: isLit }">
     <div class="content">
-      <!-- Logo -->
       <div class="mark-wrap" ref="markRef">
-        <svg
-          class="mark"
-          viewBox="0 0 120 120"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
+        <svg class="mark" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <radialGradient id="wr-glow" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.5" />
@@ -20,7 +14,6 @@
               <stop offset="100%" stop-color="var(--accent)" />
             </linearGradient>
           </defs>
-
           <circle cx="60" cy="60" r="56" fill="url(#wr-glow)" />
           <circle cx="60" cy="60" r="46" fill="none" stroke="var(--ring-faint)" stroke-width="1" />
           <g class="ticks" stroke="var(--ring-faint)" stroke-width="1.5">
@@ -37,40 +30,26 @@
             <path d="M23.6 76.5 A42 42 0 0 1 60 18 L53 60 Z" fill="var(--iris-blade)" />
           </g>
           <circle cx="60" cy="60" r="26" fill="var(--well)" />
-          <path
-            class="w-mark"
-            d="M42 49 L51 71 L60 53 L69 71 L78 49"
-            fill="none"
-            stroke="url(#wr-ring-grad)"
-            stroke-width="4.25"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+          <path class="w-mark" d="M42 49 L51 71 L60 53 L69 71 L78 49" fill="none" stroke="url(#wr-ring-grad)" stroke-width="4.25" stroke-linecap="round" stroke-linejoin="round" />
           <line class="sweep" x1="14" y1="60" x2="106" y2="60" stroke="var(--accent)" stroke-width="0.75" opacity="0.5" />
         </svg>
       </div>
 
-      <div class="text-block">
-        <!-- Mode tabs — sit above the wordmark, are the primary nav -->
+      <div class="main-content">
         <nav class="mode-tabs" aria-label="Site mode">
-          <button
-            class="mode-tab"
-            :class="{ active: currentMode === 'quickaccess' }"
-            @click="$emit('modeChange', 'quickaccess')"
-            aria-current="currentMode === 'quickaccess' ? 'page' : undefined"
-          >
+          <button class="mode-tab" :class="{ active: currentMode === 'quickaccess' }" @click="$emit('modeChange', 'quickaccess')" aria-current="currentMode === 'quickaccess' ? 'page' : undefined">
             <span class="tab-dot" aria-hidden="true" />
             QUICK ACCESS
           </button>
           <span class="tab-sep" aria-hidden="true">·</span>
-          <button
-            class="mode-tab"
-            :class="{ active: currentMode === 'followup' }"
-            @click="$emit('modeChange', 'followup')"
-            aria-current="currentMode === 'followup' ? 'page' : undefined"
-          >
+          <button class="mode-tab" :class="{ active: currentMode === 'followup' }" @click="$emit('modeChange', 'followup')" aria-current="currentMode === 'followup' ? 'page' : undefined">
             <span class="tab-dot" aria-hidden="true" />
             STUDY FOLLOWUP
+          </button>
+          <span class="tab-sep" aria-hidden="true">·</span>
+          <button class="mode-tab" :class="{ active: currentMode === 'caselog' }" @click="$emit('modeChange', 'caselog')" aria-current="currentMode === 'caselog' ? 'page' : undefined">
+            <span class="tab-dot" aria-hidden="true" />
+            COMMUNITY CASELOG
           </button>
         </nav>
 
@@ -81,22 +60,15 @@
         </h1>
       </div>
 
-      <div class="hairline" />
-      <p class="timestamp">{{ displayTime }}</p>
+      <div class="time-section">
+        <div class="hairline" />
+        <p class="timestamp">{{ displayTime }}</p>
+      </div>
     </div>
   </div>
 
-  <!-- Teleported to <body> so NO ancestor overflow:hidden can clip it -->
   <Teleport to="body">
-    <div
-      v-if="hasPinged"
-      class="wr-ping-portal"
-      aria-hidden="true"
-      :style="{
-        '--ping-x': pingX + 'px',
-        '--ping-y': pingY + 'px',
-      }"
-    >
+    <div v-if="hasPinged" class="wr-ping-portal" aria-hidden="true" :style="{ '--ping-x': pingX + 'px', '--ping-y': pingY + 'px' }">
       <div class="wr-ping-ring wr-ping-ring-1" />
       <div class="wr-ping-ring wr-ping-ring-2" />
     </div>
@@ -186,9 +158,19 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.1rem;
+  gap: 0.5rem;
   padding: 0.5rem 1rem;
-  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
 }
 
 /* ---------- Logo ---------- */
@@ -246,6 +228,7 @@ onUnmounted(() => {
 }
 
 /* ---------- Mode tabs ---------- */
+
 .mode-tabs {
   display: flex;
   align-items: center;
@@ -253,6 +236,8 @@ onUnmounted(() => {
   opacity: 0;
   transform: translateY(4px);
   transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+  justify-content: center;
+  flex-wrap: nowrap;
 }
 .lit .mode-tabs { opacity: 1; transform: translateY(0); }
 
@@ -376,10 +361,10 @@ onUnmounted(() => {
   line-height: 0.95;
   display: flex;
   align-items: baseline;
-  flex-wrap: wrap;
   gap: 0 0.38em;
+  justify-content: center;
+  white-space: nowrap;
 }
-
 .wordmark span {
   opacity: 0;
   filter: blur(4px);
@@ -401,24 +386,30 @@ onUnmounted(() => {
   margin-right: 0.1em;
 }
 .wet {
-  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  font-size: clamp(2.2rem, 4.5vw, 3rem);
   font-style: italic;
   color: var(--accent-bright);
   text-shadow: 0 0 18px var(--accent-glow);
   letter-spacing: -0.01em;
 }
 .read {
-  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  font-size: clamp(2.2rem, 4.5vw, 3rem);
   color: var(--text-primary);
   letter-spacing: -0.01em;
 }
 
 /* ---------- Hairline + timestamp ---------- */
+.time-section {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
 .hairline {
   width: 1px;
   height: 30px;
   background: linear-gradient(to bottom, transparent, var(--border-light), transparent);
-  margin: 0 0.4rem;
   transform: scaleY(0);
   transition: transform 0.5s ease 0.6s;
 }
