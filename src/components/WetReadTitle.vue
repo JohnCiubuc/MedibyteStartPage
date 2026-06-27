@@ -44,13 +44,17 @@
           <span class="tab-sep" aria-hidden="true">·</span>
           <button class="mode-tab" :class="{ active: currentMode === 'followup' }" @click="$emit('modeChange', 'followup')" aria-current="currentMode === 'followup' ? 'page' : undefined">
             <span class="tab-dot" aria-hidden="true" />
-            STUDY FOLLOWUP
+            REMIND ME
           </button>
           <span class="tab-sep" aria-hidden="true">·</span>
-          <button class="mode-tab" :class="{ active: currentMode === 'caselog' }" @click="$emit('modeChange', 'caselog')" aria-current="currentMode === 'caselog' ? 'page' : undefined">
+          <button class="mode-tab" :class="{ active: currentMode === 'phone' }" @click="$emit('modeChange', 'phone')" aria-current="currentMode === 'phone' ? 'page' : undefined">
             <span class="tab-dot" aria-hidden="true" />
-            COMMUNITY CASELOG
+            PHONE DIRECTORY
           </button>
+          <!-- <button class="mode-tab" :class="{ active: currentMode === 'caselog' }" @click="$emit('modeChange', 'caselog')" aria-current="currentMode === 'caselog' ? 'page' : undefined"> -->
+          <!--   <span class="tab-dot" aria-hidden="true" /> -->
+          <!--   COMMUNITY CASELOG -->
+          <!-- </button> -->
         </nav>
 
         <h1 class="wordmark">

@@ -372,7 +372,7 @@ onMounted(() => {
 )
 </script>
 
-<style >
+<style scoped>
 .module {
   background: var(--bg-surface);
   border: 1px solid var(--border);

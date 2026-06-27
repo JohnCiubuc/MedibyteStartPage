@@ -3,7 +3,7 @@
   <div class="followup">
 
     <div class="followup-header">
-      <p class="section-eyebrow">STUDY FOLLOWUP</p>
+      <p class="section-eyebrow">REMIND ME</p>
       <p class="followup-sub">Schedule a reminder email on any future date</p>
     </div>
 
@@ -13,13 +13,13 @@
       <div class="fields">
 
         <div class="field">
-          <label class="lbl" for="sf-study-id">Study ID</label>
+          <label class="lbl" for="sf-study-id">Reminder ID</label>
           <input
             id="sf-study-id"
             v-model="form.studyId"
             class="inp"
             :class="{ error: errors.studyId }"
-            placeholder="e.g. UH4849978"
+            placeholder="e.g. UH#... Chick fil A"
             autocomplete="off"
             @input="errors.studyId = ''"
           />
@@ -68,7 +68,7 @@
             id="sf-note"
             v-model="form.note"
             class="inp inp-textarea"
-            placeholder="Check biopsy results from CT Abd. "
+            placeholder="Check biopsy results from Chick Fil A. "
             rows="3"
           />
         </div>

@@ -3,7 +3,6 @@
     <div class="scanlines" aria-hidden="true" />
     <main class="main">
 <WetReadTitle :currentMode="activeMode" @modeChange="activeMode = $event" />
-
 <!-- then conditionally render your views: -->
 <template v-if="activeMode === 'quickaccess'">
   <Transition name="fade-slide" appear>
@@ -41,6 +40,12 @@
   </Transition>
 </template>
 
+<template v-else-if="activeMode === 'phone'">
+  <Transition name="fade-slide" appear>
+    <PhoneDirectory/>
+  </Transition>
+</template>
+
 <template v-else-if="activeMode === 'caselog'">
   <Transition name="fade-slide" appear>
     <CaseLog/>
@@ -53,9 +58,18 @@
       </p>
 <CounterAPI />
       <p class="version">
-        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.0.6</button>
+        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.0.8</button>
       </p>
       <div v-if="showVersion" class="help-panel">
+
+        <p class="help-title">v1.0.8</p>
+        <ul class="version-list">
+          <li>Added PhoneDirectory</li>
+        </ul>
+        <p class="help-title">v1.0.7</p>
+        <ul class="version-list">
+          <li>Removed Community Caselog Module</li>
+        </ul>
         <p class="help-title">v1.0.6</p>
         <ul class="version-list">
           <li>Community Caselog Module</li>
@@ -116,7 +130,8 @@ import AppFooter from '@/components/AppFooter.vue'
 import MSKMriTileGroup from '@/components/MSKMriTileGroup.vue'
 import CounterAPI from '@/components/CounterAPI.vue'
 import StudyFollowup from '@/components/StudyFollowup.vue'
-import CaseLog from '@/components/CaseLog.vue'
+// import CaseLog from '@/components/CaseLog.vue'
+import PhoneDirectory from '@/components/PhoneDirectory.vue'
 
 const showVersion = ref(false)
 const searchQuery = ref('')
