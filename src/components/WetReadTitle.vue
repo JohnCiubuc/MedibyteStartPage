@@ -38,18 +38,20 @@
       <div class="main-content">
         <nav class="mode-tabs" aria-label="Site mode">
           <button class="mode-tab" :class="{ active: currentMode === 'quickaccess' }" @click="$emit('modeChange', 'quickaccess')" aria-current="currentMode === 'quickaccess' ? 'page' : undefined">
-            <span class="tab-dot" aria-hidden="true" />
+            <!-- <span class="tab-dot" aria-hidden="true" /> -->
             QUICK ACCESS
           </button>
-          <span class="tab-sep" aria-hidden="true">·</span>
           <button class="mode-tab" :class="{ active: currentMode === 'followup' }" @click="$emit('modeChange', 'followup')" aria-current="currentMode === 'followup' ? 'page' : undefined">
-            <span class="tab-dot" aria-hidden="true" />
+            <!-- <span class="tab-dot" aria-hidden="true" /> -->
             REMIND ME
           </button>
-          <span class="tab-sep" aria-hidden="true">·</span>
           <button class="mode-tab" :class="{ active: currentMode === 'phone' }" @click="$emit('modeChange', 'phone')" aria-current="currentMode === 'phone' ? 'page' : undefined">
-            <span class="tab-dot" aria-hidden="true" />
+            <!-- <span class="tab-dot" aria-hidden="true" /> -->
             PHONE DIRECTORY
+          </button>
+          <button class="mode-tab" :class="{ active: currentMode === 'responsible' }" @click="$emit('modeChange', 'responsible')" aria-current="currentMode === 'responsible' ? 'page' : undefined">
+            <!-- <span class="tab-dot" aria-hidden="true" /> -->
+            RESPONSIBILITIES
           </button>
           <!-- <button class="mode-tab" :class="{ active: currentMode === 'caselog' }" @click="$emit('modeChange', 'caselog')" aria-current="currentMode === 'caselog' ? 'page' : undefined"> -->
           <!--   <span class="tab-dot" aria-hidden="true" /> -->
@@ -234,14 +236,14 @@ onUnmounted(() => {
 /* ---------- Mode tabs ---------- */
 
 .mode-tabs {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.4em;
   opacity: 0;
   transform: translateY(4px);
   transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
-  justify-content: center;
-  flex-wrap: nowrap;
+  max-width: 400px;
+  margin-inline: auto;
 }
 .lit .mode-tabs { opacity: 1; transform: translateY(0); }
 

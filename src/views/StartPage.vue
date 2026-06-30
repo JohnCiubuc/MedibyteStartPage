@@ -52,16 +52,27 @@
   </Transition>
 </template>
 
+<template v-else-if="activeMode === 'responsible'">
+  <Transition name="fade-slide" appear>
+    <ResponsibilitiesOverview/>
+  </Transition>
+</template>
+
+
       <p class="feedback">
         Any questions, suggestions, or improvements?
         <a href="mailto:ciubuc@uthscsa.edu" class="feedback-link">Email me</a>
       </p>
 <CounterAPI />
       <p class="version">
-        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.0.8</button>
+        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.0.9</button>
       </p>
       <div v-if="showVersion" class="help-panel">
 
+        <p class="help-title">v1.0.9</p>
+        <ul class="version-list">
+          <li>Added Responsibilities</li>
+        </ul>
         <p class="help-title">v1.0.8</p>
         <ul class="version-list">
           <li>Added PhoneDirectory</li>
@@ -132,6 +143,7 @@ import CounterAPI from '@/components/CounterAPI.vue'
 import StudyFollowup from '@/components/StudyFollowup.vue'
 // import CaseLog from '@/components/CaseLog.vue'
 import PhoneDirectory from '@/components/PhoneDirectory.vue'
+import ResponsibilitiesOverview from '@/components/ResponsibilitiesOverview.vue'
 
 const showVersion = ref(false)
 const searchQuery = ref('')
