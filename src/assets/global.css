@@ -12,6 +12,7 @@
   --text-dim:     #3f4f6e;
   --accent:       #4a9ea6;
   --accent-glow:  rgba(74, 158, 166, 0.12);
+  --text-tert: #a9def9;
 
   --tile-icon-size: 64px;
   --tile-icon-font: 26px;
@@ -20,6 +21,20 @@
   --main-padding:   48px 24px 32px;
   --main-gap:       16px;
   --card-padding:   20px 22px 22px;
+
+--color-lavender-50: #ebf0fa;
+--color-lavender-100: #d7e1f4;
+--color-lavender-200: #afc3e9;
+--color-lavender-300: #87a5de;
+--color-lavender-400: #5f88d3;
+--color-lavender-500: #376ac8;
+--color-lavender-600: #2c55a0;
+--color-lavender-700: #213f78;
+--color-lavender-800: #162a50;
+--color-lavender-900: #0b1528;
+--color-lavender-950: #080f1c;
+
+
 }
 
 /* Short screens (laptops, ~768px tall) */

@@ -65,10 +65,14 @@
       </p>
 <CounterAPI />
       <p class="version">
-        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.0.9</button>
+        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.1.0</button>
       </p>
       <div v-if="showVersion" class="help-panel">
 
+        <p class="help-title">v1.1.0</p>
+        <ul class="version-list">
+          <li>Responsibilities dim per current active time</li>
+        </ul>
         <p class="help-title">v1.0.9</p>
         <ul class="version-list">
           <li>Added Responsibilities</li>
@@ -156,7 +160,9 @@ const articleTiles = [
     ]
 
 const eAnatomyTiles = [
-  { label: 'MRI Brain', icon: 'https://cdn1.imaios.com/i/images/4/2/6/0/310624-3-eng-GB/f9296ee2c558-brain3dmri.png?q=75&w=230&s=6419caa48600b24d59e4ff706f7222d3', url: 'https://www.imaios.com/en/e-anatomy/brain/mri-brain', keywords: 'neuro neurology neuroanatomy head skull cranial' },
+  { label: 'MRI Brain', icon: 'https://cdn1.imaios.com/i/images/4/2/6/0/310624-3-eng-GB/f9296ee2c558-brain3dmri.png?q=75&w=230&s=6419caa48600b24d59e4ff706f7222d3', url: 'https://www.imaios.com/en/e-anatomy/brain/mri-brain', keywords: 'neuro neurology neuroanatomy brain stroke head skull cranial' },
+  { label: 'MRA Brain', icon: 'https://cdn1.imaios.com/i/images/7/0/5/0/310507-3-eng-GB/8e9d6b5348c0-cerveau.png?q=75&w=230&s=894b4aa98935c59886c5fceb2c1b00a6', url: 'https://www.imaios.com/en/e-anatomy/brain/mri-axial-brain', keywords: 'mra angio stroke brain neuro neurology neuroanatomy head skull cranial' },
+  { label: 'MR Venography', icon: 'https://cdn1.imaios.com/i/images/2/0/0/3/9623002-1-eng-GB/brain-venography-mr.png?q=75&w=230&s=7df186bb8eb87ff1fb5d0acf4044bbb5', url: 'https://www.imaios.com/en/e-anatomy/brain/mr-cerebral-venography', keywords: 'mrv venography veno angio stroke brain neuro neurology neuroanatomy head skull cranial' },
   { label: 'CT Brain', icon: 'https://cdn1.imaios.com/i/images/5/8/5/0/310585-3-eng-GB/0a8f1dd62341-brain-ct.png?q=75&w=230&s=e2205d9962bc65dab16ad83e39523668', url: 'https://www.imaios.com/en/e-anatomy/brain/ct-brain', keywords: 'neuro neurology neuroanatomy head skull cranial' },
   { label: 'CT Head and Neck', icon: 'https://cdn1.imaios.com/i/images/2/9/7/1/131792-4-eng-GB/caebb438ec94-Head-Neck-CT.png?q=75&w=230&s=ff1fb7b910c5e632425be1b464c46e63', url: 'https://www.imaios.com/en/e-anatomy/head-and-neck/ct-head-and-neck', keywords: 'neck throat larynx pharynx thyroid' },
   { label: 'CT Face', icon: 'https://cdn1.imaios.com/i/images/6/8/7/1/131786-5-eng-GB/e4a720e3e88b-face.png?q=75&w=230&s=abfc4f7f9c056c02ed7ebf8e8f5863ee', url: 'https://www.imaios.com/en/e-anatomy/head-and-neck/ct-face', keywords: 'facial maxillofacial sinus orbit' },
