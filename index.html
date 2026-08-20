@@ -30,4 +30,28 @@
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
+
+  <!-- JSON-LD structured data — the strongest, least ambiguous signal -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": "The Wet Read",
+    "url": "https://thewetread.com/",
+    "description": "The start page for everything an on-call radiologist reaches for. Smart search, eAnatomy, MSK MRI Atlas, Rad-Call, and RadAssistant - all in one place.",
+    "medicalAudience": {
+      "@type": "MedicalAudience",
+      "audienceType": "Radiologist"
+    },
+    "about": {
+      "@type": "MedicalSpecialty",
+      "name": "Radiology"
+    },
+    "isAccessibleForFree": true,
+    "publisher": {
+      "@type": "Organization",
+      "name": "The Wet Read"
+    }
+  }
+  </script>
 </html>

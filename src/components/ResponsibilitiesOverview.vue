@@ -5,7 +5,7 @@
         <h1 class="directory-title">ER Resident Responsibilities</h1>
         <p class="directory-subtitle">{{ intro }}</p>
       </div>
-      <span class="revised-tag">Last Revised July 2026</span>
+      <span class="revised-tag">Last Revised August 2026</span>
     </div>
 
     <!-- SELECTOR -->
@@ -71,19 +71,19 @@
         </table>
       </section>
 
-<section class="card exceptions-card">
-  <span class="section-eyebrow">All Shifts</span>
-  <h2 class="card-title">Exceptions — Daytime Assignment OK If</h2>
-  <ol class="duty-list">
-    <li v-for="(e, i) in exceptions" :key="i" class="duty-row">
-      <span class="duty-num">{{ i + 1 }}</span>
-      <div class="duty-text" v-html="e"></div>
-    </li>
-  </ol>
-  <div class="footnotes">
-    <p>When leaving a study for AM subspecialty interpretation you <strong>MUST</strong> leave a study comment and assign the study to the correct subspecialty.</p>
-  </div>
-</section>
+      <section class="card exceptions-card">
+        <span class="section-eyebrow">All Shifts</span>
+        <h2 class="card-title">Exceptions — Daytime Assignment OK If</h2>
+        <ol class="duty-list">
+          <li v-for="(e, i) in exceptions" :key="i" class="duty-row">
+            <span class="duty-num">{{ i + 1 }}</span>
+            <div class="duty-text" v-html="e"></div>
+          </li>
+        </ol>
+        <div class="footnotes">
+          <p>When leaving a study for AM subspecialty interpretation you <strong>MUST</strong> leave a study comment and assign the study to the correct subspecialty.</p>
+        </div>
+      </section>
 
       <section class="card overread-card">
         <span class="section-eyebrow">All Shifts</span>
@@ -104,7 +104,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 const selected = ref(null)
 
-const intro = 'Responsibilities include ALL STAT studies with acute indications and routine studies if called by the clinician within reason.'
+const intro = 'Responsibilities include ALL STAT studies from ER, trauma, and inpatient and routine studies called by clinical team.'
 
 /**
  * Each duty may optionally include a `window: { start: 'HH:MM', end: 'HH:MM' }`
@@ -117,145 +117,163 @@ const intro = 'Responsibilities include ALL STAT studies with acute indications 
  * handled automatically by isDutyActive().
  */
 
+// ---- Base duty lists (reused directly + combined into the "+" sections) --
+
+const trieveDuties = [
+  { text: 'UH Inpatient CT Chest, Abdomen/Pelvis (including CTA)', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+  { text: 'UH Neuro: ER, Trauma, and Inpatient CT', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+  { text: 'UH MRI Cord Compression and MRI Stroke Limited Protocol', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+  { text: 'UH ICU plain films', time: 'until 9:30 PM', window: { start: '16:30', end: '21:30' } },
+  { text: 'UH Inpatient and Inpatient Pedi plain films', time: 'until 9:30 PM', window: { start: '16:30', end: '21:30' } },
+  { text: 'UH Outside interpretation studies (overreads)', time: 'when called, from 4:30 PM until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+  { text: 'MSRH studies (x-ray, CT, US, & MRI cord compression and MRI stroke limited)', time: 'from 4:30 PM until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+]
+
+const triageDuties = [
+  { text: 'ER and Trauma CT Chest, Abdomen/Pelvis (including CTA)', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+  { text: 'ER, Trauma, and Inpatient CT MSK (including CTA)', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+  { text: 'ER and Trauma Ultrasound', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+  { text: 'ER and Trauma Radiographs', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+  { text: 'Emergent Fluoroscopy and Nuclear Medicine Studies', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
+]
+
+const weekend1Duties = [
+  { text: 'ALL (STAT and non-STAT) Inpatient Pediatric Radiographs', time: 'until last modified 8:00 AM', note: '(AM2 Faculty)', window: { start: '07:00', end: '08:00' } },
+  { text: 'ER and Trauma CT Chest, Abdomen/Pelvis (including CTA)', time: 'until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
+  { text: 'ER, Trauma, and Inpatient CT MSK (including CTA)', time: 'until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
+  { text: 'ER, Trauma, and Inpatient Ultrasound', time: 'until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
+  { text: 'Emergent Fluoro and Nuclear Medicine Studies', time: 'until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
+  { text: 'Outside Read Interpretations', time: 'when called, until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
+  { text: 'Inpatient CT Chest, Abdomen/Pelvis (including CTA)', time: '2:30 PM – 6:30 PM', note: '(ER Evening Faculty)', window: { start: '14:30', end: '18:30' } },
+]
+
+const weekend2Duties = [
+  { text: 'Inpatient Pediatric Radiographs', time: 'starts 8:00 AM (last modified) until 6:30 PM', note: '(AM2 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '08:00', end: '18:30' } },
+  { text: 'Inpatient Radiographs', time: 'until last modified 2:30 PM', note: '(AM2 Faculty)', window: { start: '07:00', end: '14:30' } },
+  { text: 'ALL (STAT and non-STAT) ICU Radiographs', time: 'until last modified 2:30 PM', note: '(AM2 Faculty)', window: { start: '07:00', end: '14:30' } },
+  { text: 'ER and Trauma Radiographs', time: 'starts 12:00 PM (last modified) until 6:30 PM', note: '(AM2 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '12:00', end: '18:30' } },
+  { text: 'Inpatient CT Chest, Abdomen/Pelvis (including CTA)', time: 'until 2:30 PM', note: '(AM1 Faculty)', window: { start: '07:00', end: '14:30' } },
+  { text: 'ER, Trauma, and Inpatient CT Neuro', time: 'starts 2:30 PM until 6:30 PM', note: '(ER Evening Faculty)', window: { start: '14:30', end: '18:30' } },
+  { text: 'MRI Cord Compression and MRI Stroke Limited Protocol', time: 'starts 2:30 PM until 6:30 PM', note: '(ER Evening Faculty)', window: { start: '14:30', end: '18:30' } },
+  { text: 'Assist ER Weekend 1', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
+]
+
+const weekend3Duties = [
+  { text: 'MSRH ER and Inpatient CT Chest, Abdomen/Pelvis, and Neuro (including CTA)', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
+  { text: 'MSRH ER and Inpatient MSK (including CTA)', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
+  { text: 'MSRH ER and Inpatient Radiographs', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
+  { text: 'MSRH ER and Inpatient Ultrasound', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
+  { text: 'MSRH MRI Cord Compression', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
+  { text: 'Assist UH Neuro weekend residents', time: '7:00 AM – 11:30 AM', note: '(send to Neuro on-call faculty)', window: { start: '07:00', end: '11:30' } },
+  { text: 'Assist UH ER 1 and 2 residents', time: '11:30 AM – 6:30 PM', window: { start: '11:30', end: '18:30' } },
+]
+
+const nights1Duties = [
+  { text: 'ER, Trauma and Inpatient CT Neuro', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30 PM, then ER Night Faculty until 4:30 AM, then Neuro Morning Faculty until 7:00 AM; code strokes 4:30–7:00 AM go to ER Night Faculty)', window: { start: '18:30', end: '07:00' } },
+  { text: 'ER and Trauma Radiographs', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30 PM, then ER Night Faculty until 4:30 AM, then ER Morning Faculty until 7:00 AM)', window: { start: '18:30', end: '07:00' } },
+  { text: 'ICU and inpatient Radiographs', time: 'until last modified 4:30 AM', note: '(ER Evening Faculty until 9:30 PM, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '04:30' } },
+  { text: 'MRI Cord Compression Protocol', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
+  { text: 'Emergent nuclear medicine studies', note: 'if requested' },
+]
+
+const nights2Duties = [
+  { text: 'ER, Trauma, and Inpatient CT Chest, Abdomen/Pelvis (including CTA)', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30 PM, then ER Night Faculty until 4:30 AM, then ER Morning Faculty until 7:00 AM)', window: { start: '18:30', end: '07:00' } },
+  { text: 'ER, Trauma, and Inpatient CT MSK (including CTA)', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30 PM, then ER Night Faculty until 4:30 AM, then ER Morning Faculty until 7:00 AM)', window: { start: '18:30', end: '07:00' } },
+  { text: 'ER and Trauma Ultrasound', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30 PM, then ER Night Faculty until 4:30 AM, then ER Morning Faculty until 7:00 AM)', window: { start: '18:30', end: '07:00' } },
+  { text: 'Emergent fluoroscopy studies', note: 'if requested' },
+]
+
+const nights3Duties = [
+  { text: 'MSRH ER and Inpatient CT Chest, Abdomen/Pelvis, and Neuro (including CTA)', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
+  { text: 'MSRH ER and Inpatient MSK (including CTA)', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
+  { text: 'MSRH ER and Inpatient Radiographs', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
+  { text: 'MSRH ER and Inpatient Ultrasound', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
+  { text: 'MSRH MRI Cord Compression Protocol', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
+  { text: 'UH Inpatient Radiographs', time: 'until 4:30 AM', note: '(ER Evening Faculty until 9:30 PM, then ER Night Faculty until 4:30 AM, then ER Morning Faculty until 7:00 AM)', window: { start: '18:30', end: '04:30' } },
+  { text: 'UH Inpatient Ultrasound', time: 'until 4:30 AM', note: '(ER Evening Faculty until 9:30 PM, then ER Night Faculty until 4:30 AM, then ER Morning Faculty until 7:00 AM)', window: { start: '18:30', end: '04:30' } },
+  { text: 'UH outside interpretation studies (overreads)', time: '6:30 PM – 7:00 AM', note: '(ER Evening Faculty until 9:30 PM, then ER Night Faculty until 4:30 AM, then ER Morning Faculty until 7:00 AM)', window: { start: '18:30', end: '07:00' } },
+  { text: 'Triage and fully review ALL exams deferred for AM subspecialty read', note: 'for critical or acute findings' },
+  { text: 'Manage / decompress the shared list once caught up', note: 'pick up ANY unread CT, Ultrasound, or Radiograph' },
+  { text: 'Nightly goal', note: 'last modified time to resident draft turnaround ≈ 1.5 hours' },
+]
+
 const roles = [
   {
     id: 'trieve',
     eyebrow: 'Weekday Evening',
     title: 'TRIEVE',
     hours: '4:30 PM – 9:30 PM',
-    duties: [
-      { text: 'Inpatient CT Chest, Abdomen/Pelvis (incl. angio studies)', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-      { text: 'ER, Trauma, and Inpatient CT Neuro', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-      { text: 'MRI Cord Compression Protocol', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-      { text: 'ICU plain films', time: 'until 9:30 PM', note: '(ALL including non-STAT)', window: { start: '16:30', end: '21:30' } },
-      { text: 'Inpatient and Inpatient Pedi plain films', time: 'until 9:30 PM', window: { start: '16:30', end: '21:30' } },
-      { text: 'Outside interpretation studies (overreads)', time: 'from 4:30 PM until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-      { text: 'STAT MSRH studies', time: 'from 4:30 PM until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-    ],
+    duties: trieveDuties,
   },
   {
     id: 'triage',
     eyebrow: 'Weekday Evening',
     title: 'TRIAGE',
     hours: '4:30 PM – 6:30 PM',
-    duties: [
-      { text: 'ER and Trauma CT Chest, Abdomen/Pelvis (incl. angio studies)', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-      { text: 'ER, Trauma, and Inpatient CT MSK (incl. angio studies)', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-      { text: 'ER and Trauma Ultrasound', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-      { text: 'ER and Trauma Radiographs', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-      { text: 'Emergent Fluoroscopy and Nuclear Medicine Studies', time: 'until 6:30 PM', window: { start: '16:30', end: '18:30' } },
-    ],
+    duties: triageDuties,
   },
   {
     id: 'weekend1',
     eyebrow: 'UH ER Weekend',
     title: 'Weekend 1',
     hours: '7:00 AM – 6:30 PM',
-    duties: [
-      { text: 'ALL Inpatient Pediatric Radiographs', time: 'until last modified 8:00 AM', note: '(AM2 Faculty)', window: { start: '07:00', end: '08:00' } },
-      { text: 'ER and Trauma CT Chest, Abdomen/Pelvis (incl. angio studies)', time: 'until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
-      { text: 'ER, Trauma, and Inpatient MSK CTs (incl. angio studies)', time: 'until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
-      { text: 'ER, Trauma, and Inpatient Ultrasound', time: 'until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
-      { text: 'Emergent Fluoro and Nuclear Medicine Studies', time: 'until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
-      { text: 'Outside Read Interpretations', time: 'until 6:30 PM', note: '(AM1 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '07:00', end: '18:30' } },
-      { text: 'Inpatient CT Chest, Abdomen/Pelvis', time: '2:30 PM – 6:30 PM', note: '(ER Evening Faculty)', window: { start: '14:30', end: '18:30' } },
-    ],
+    duties: weekend1Duties,
   },
   {
     id: 'weekend2',
     eyebrow: 'UH ER Weekend',
     title: 'Weekend 2',
     hours: '7:00 AM – 6:30 PM',
-    duties: [
-      { text: 'STAT Inpatient Pediatric Radiographs', time: 'starts 8:00 AM (last modified) until 6:30 PM', note: '(AM2 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '08:00', end: '18:30' } },
-      { text: 'STAT Inpatient Radiographs', time: 'until last modified 2:30 PM', note: '(AM2 Faculty)', window: { start: '07:00', end: '14:30' } },
-      { text: 'ALL ICU Radiographs', time: 'until last modified 2:30 PM', note: '(AM2 Faculty)', window: { start: '07:00', end: '14:30' } },
-      { text: 'ER and Trauma Radiographs', time: 'starts 12:00 PM (last modified) until 6:30 PM', note: '(AM2 Faculty until 2:30 PM, then ER Evening Faculty until 6:30 PM)', window: { start: '12:00', end: '18:30' } },
-      { text: 'STAT Inpatient CT Chest, Abdomen/Pelvis', time: 'until 2:30 PM', note: '(AM1 Faculty)', window: { start: '07:00', end: '14:30' } },
-      { text: 'ER, Trauma, and Inpatient CT Neuro', time: 'starts 2:30 PM until 6:30 PM', note: '(ER Evening Faculty)', window: { start: '14:30', end: '18:30' } },
-      { text: 'MRI Cord Compression Protocol', time: 'starts 2:30 PM until 6:30 PM', note: '(ER Evening Faculty)', window: { start: '14:30', end: '18:30' } },
-      { text: 'Assist ER Weekend 1', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
-    ],
+    duties: weekend2Duties,
+  },
+  {
+    id: 'weekend12',
+    eyebrow: 'UH ER Weekend',
+    title: 'Weekend 1 + 2',
+    hours: '7:00 AM – 6:30 PM',
+    duties: [...weekend1Duties, ...weekend2Duties],
   },
   {
     id: 'weekend3',
     eyebrow: 'UT ER Weekend',
     title: 'Weekend 3',
     hours: '7:00 AM – 6:30 PM',
-    duties: [
-      { text: 'MSRH ER and Inpatient CT Chest, Abdomen/Pelvis, and Neuro (incl. angio studies)', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
-      { text: 'MSRH ER and Inpatient MSK (incl. angio studies)', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
-      { text: 'MSRH ER and Inpatient Radiographs', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
-      { text: 'MSRH ER and Inpatient Ultrasound', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
-      { text: 'MSRH MRI for cord compression', time: 'until 6:30 PM', window: { start: '07:00', end: '18:30' } },
-      { text: 'Assist UH Neuro weekend residents', time: '7:00 AM – 11:30 AM', note: '(send to Neuro on-call faculty)', window: { start: '07:00', end: '11:30' } },
-      { text: 'Assist UH ER 1 and 2 residents', time: '11:30 AM – 6:30 PM', window: { start: '11:30', end: '18:30' } },
-    ],
+    duties: weekend3Duties,
   },
   {
     id: 'nights1',
     eyebrow: 'UH ER Nights · R2',
     title: 'Nights — Resident 1',
     hours: '6:30 PM – 7:00 AM',
-    duties: [
-      { text: 'ER, Trauma and Inpatient CT Neuro', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '07:00' } },
-      { text: 'ER and Trauma Radiographs', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '07:00' } },
-      { text: 'STAT ICU and inpatient Radiographs', time: 'until last modified 4:30 AM', note: '(ER Evening Faculty until 9:30, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '04:30' } },
-      { text: 'MRI Cord Compression Protocol', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
-      { text: 'Emergent nuclear medicine studies', note: 'if requested' },
-      { text: 'Assist UH ER Nights 2' },
-    ],
-    footnotes: [
-      '*Studies read 4:30 AM – 7:00 AM are assigned to ER Day Faculty.',
-      '*Neuro studies read 4:30 AM – 7:00 AM go to designated daytime Neuro Faculty (unless stroke protocol — contact ER Night Faculty for final read).',
-    ],
+    duties: nights1Duties,
   },
   {
     id: 'nights2',
     eyebrow: 'UH ER Nights · R2',
     title: 'Nights — Resident 2',
     hours: '6:30 PM – 7:00 AM',
-    duties: [
-      { text: 'ER, Trauma, and Inpatient CT Chest, Abdomen/Pelvis (incl. angio studies)', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '07:00' } },
-      { text: 'ER, Trauma, and Inpatient CT MSK (incl. angio studies)', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '07:00' } },
-      { text: 'ER and Trauma Ultrasound', time: 'until 7:00 AM', note: '(ER Evening Faculty until 9:30, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '07:00' } },
-      { text: 'Emergent fluoroscopy studies', note: 'if requested' },
-      { text: 'Assist UH ER Nights 1' },
-    ],
-    footnotes: [
-      '*Studies read 4:30 AM – 7:00 AM are assigned to ER Day Faculty.',
-      '*Neuro studies read 4:30 AM – 7:00 AM go to designated daytime Neuro Faculty (unless stroke protocol — contact ER Night Faculty for final read).',
-    ],
+    duties: nights2Duties,
+  },
+  {
+    id: 'nights12',
+    eyebrow: 'UH ER Nights · R2',
+    title: 'Nights — Residents 1 + 2',
+    hours: '6:30 PM – 7:00 AM',
+    duties: [...nights1Duties, ...nights2Duties],
   },
   {
     id: 'nights3',
     eyebrow: 'UT ER Nights',
     title: 'Nights — Resident 3',
     hours: '6:30 PM – 7:00 AM',
-    duties: [
-      { text: 'MSRH ER and Inpatient CT Chest, Abdomen/Pelvis, and Neuro (incl. angio studies)', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
-      { text: 'MSRH ER and Inpatient MSK (incl. angio studies)', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
-      { text: 'MSRH ER and Inpatient Radiographs', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
-      { text: 'MSRH ER and Inpatient Ultrasound', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
-      { text: 'MSRH MRI Cord Compression Protocol', time: 'until 7:00 AM', window: { start: '18:30', end: '07:00' } },
-      { text: 'UH STAT Inpatient Radiographs', time: 'until 4:30 AM', note: '(ER Evening Faculty until 9:30, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '04:30' } },
-      { text: 'UH Inpatient Ultrasound', time: 'until 4:30 AM', note: '(ER Evening Faculty until 9:30, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '04:30' } },
-      { text: 'UH outside interpretation studies (overreads)', time: '6:30 PM – 7:00 AM', note: '(ER Evening Faculty until 9:30, then ER Night Faculty until 4:30 AM)', window: { start: '18:30', end: '07:00' } },
-      { text: 'Triage and fully review ALL exams deferred for AM subspecialty read', note: 'for critical or acute findings' },
-      { text: 'Manage / decompress the shared list once caught up', note: 'pick up ANY unread CT, Ultrasound, or Radiograph' },
-    ],
-    footnotes: [
-      'Nightly goal: last modified time to resident draft turnaround ≈ 1.5 hours.',
-      '*Studies read 4:30 AM – 7:00 AM are assigned to ER Day Faculty.',
-      '*Neuro studies read 4:30 AM – 7:00 AM go to designated daytime Neuro Faculty (unless stroke protocol — contact ER Night Faculty for final read).',
-    ],
+    duties: nights3Duties,
   },
 ]
 
 const exceptions = [
-  'Inpatient CT Chest, Abdomen/Pelvis for <span class="hl hl-metastatic">metastatic workup</span> — must fully <span class="hl hl-metastatic">review for acute findings</span>; dictate if any are found.',
+  'Inpatient CT Chest, Abdomen/Pelvis for <span class="hl hl-metastatic">metastatic workup</span> — however, must fully <span class="hl hl-metastatic">review for acute findings</span>; dictate if any are found.',
   'ER, Trauma, or Inpatient CT MSK with a <span class="hl hl-fracture">KNOWN fracture</span>.',
-  '<span class="hl hl-msk">Inpatient MSK plain films</span> of any priority — no longer within scope of the ER rotation.',
+  '<span class="hl hl-msk">Inpatient MSK plain films</span> of any priority — no longer within scope of the UH ER rotation.',
   'STAT <span class="hl hl-critical">Inpatient CT</span> without a <span class="hl hl-critical">critical indication</span>.',
   'Routine studies <span class="hl hl-readifcalled">must be read if called</span> by the clinician.',
   'OR Surgical Radiographs <span class="hl hl-readifcalled">must be read if called</span> — promptly <span class="hl hl-notify">notify ER night faculty</span> for final read.',
