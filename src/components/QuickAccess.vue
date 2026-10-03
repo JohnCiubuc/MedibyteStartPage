@@ -78,9 +78,9 @@ defineProps({
   height: var(--tile-icon-size);
   font-size: var(--tile-icon-font);
   /* background: var(--bg-raised); */
-  background: #2e3952;
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  /* background: #2e3952; */
+  /* border: 1px solid var(--border); */
+  /* border-radius: 14px; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,12 +93,12 @@ defineProps({
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+  /* background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%); */
   border-radius: 14px;
 }
 
 .tile:hover .tile-icon {
-  background: var(--bg-hover);
+  /* background: var(--bg-hover); */
   border-color: var(--border-light);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
