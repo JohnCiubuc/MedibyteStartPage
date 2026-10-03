@@ -88,7 +88,7 @@ const filteredTiles = computed(() => {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: var(--tile-gap);
-  max-height: calc(var(--tile-icon-size) * 3.8);
+  max-height: calc(var(--tile-icon-size) * 5);
   overflow-y: auto;
   padding: 4px;
 }

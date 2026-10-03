@@ -50,16 +50,17 @@ watch(query, (val) => {
 })
 
 const bangs = [
-  { prefix: 'r',  label: 'Radiopaedia',         example: 'r emphysema',         url: q => `https://radiopaedia.org/search?q=${q}` },
+  { prefix: 'c',  label: 'Contacts',               example: 'c Ciubuc',       url: q => `https://app.qgenda.com/OnCallSearch/68e7ce6d-aae2-453b-bc2e-01918097b1f5?isFromLandingPage=true&searchString=${q}`},
   { prefix: 'e',  label: 'eAnatomy Modules',               example: 'e abdomen',      url: q => `https://www.imaios.com/en/imaios-search/(search_text)/${q}/(category)/human/(type)/anatomy-modules/(page)/1` },
+  { prefix: 'g',  label: 'Google Scholar',               example: 'g HCC treatment 2026',       url: q => `https://scholar.google.com/scholar?q=${q} `},
   { prefix: 'm',  label: 'MRI Safety Search',               example: 'm ivc filter',      url: q => `https://www.mrisafety.com/TMDL_list.php?qs=${q}&criteria=or&orderby=alist_description` },
 
   { prefix: 'o',  label: 'OpenEvidence',    example: 'o hot quadrate sign pathophys',          url: q => `https://www.openevidence.com/ask?query=${q}` },
-  { prefix: 'g',  label: 'Google Scholar',               example: 'g HCC treatment 2026',       url: q => `https://scholar.google.com/scholar?q=${q} `},
   // { prefix: 'yt', label: 'YouTube',              example: 'yt radiology review', url: q => `https://www.youtube.com/results?search_query=${q}` },
   // { prefix: 'w',  label: 'Wikipedia',            example: 'w aortic stenosis',   url: q => `https://en.wikipedia.org/wiki/Special:Search?search=${q}` },
   // 
   { prefix: 'p',  label: 'PubMed',               example: 'p uroepithelial carcinoma',    url: q => `https://pubmed.ncbi.nlm.nih.gov/?term=${q}` },
+  { prefix: 'r',  label: 'Radiopaedia',         example: 'r emphysema',         url: q => `https://radiopaedia.org/search?q=${q}` },
 ]
 
 function resolve(raw) {

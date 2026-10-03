@@ -5,11 +5,17 @@
 <WetReadTitle :currentMode="activeMode" @modeChange="activeMode = $event" />
 <!-- then conditionally render your views: -->
 <template v-if="activeMode === 'quickaccess'">
+
   <Transition name="fade-slide" appear>
     <SearchBar @queryChanged="searchChange" />
   </Transition>
   <Transition name="fade-slide" appear>
     <QuickAccess :tiles="soloTiles" />
+  </Transition>
+  <Transition name="fade-slide" appear>
+    <TileGroup eyebrow="QGenda Medicine Teams"
+      title="Make sure you're logged into QGenda first!" :tiles="qgendaMedicineTiles"
+      :filter="searchQuery" />
   </Transition>
   <Transition name="fade-slide" appear>
     <TileGroup eyebrow="Anatomical Reference Library"
@@ -61,14 +67,25 @@
 
       <p class="feedback">
         Any questions, suggestions, or improvements?
-        <a href="mailto:ciubuc@uthscsa.edu" class="feedback-link">Email me</a>
+        <a href="mailto:john.ciubuc@gmail.com" class="feedback-link">Email me</a>
       </p>
 <CounterAPI />
       <p class="version">
-        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.1.0</button>
+        <button class="learn-more" @click="showVersion = !showVersion">TheWetRead v1.1.2</button>
       </p>
       <div v-if="showVersion" class="help-panel">
 
+        <p class="help-title">v1.1.2</p>
+        <ul class="version-list">
+          <li>Added QGenda Medicine Team Links</li>
+          <li>Re-skinned everything to ugly turquoise black</li>
+        </ul>
+        <p class="help-title">v1.1.1</p>
+        <ul class="version-list">
+          <li>Added resident phone number directory</li>
+          <li>Added staff/resident phone number directory</li>
+          <li>Added staff/resident phone number quick search with 'c'</li>
+        </ul>
         <p class="help-title">v1.1.0</p>
         <ul class="version-list">
           <li>Responsibilities dim per current active time</li>
@@ -192,6 +209,27 @@ const radCallTiles = [
   { label: 'MRI Safety', icon: 'https://www.mrisafety.com/images/BraccoLogo100.png', url: 'https://www.mrisafety.com/TMDL_list.php?orderby=alist_description', keywords: 'implant pacemaker device compatibility screening mri safety' },
 ]
 
+
+const qgendaMedicineTiles = [
+  { label: 'Medicine A', icon: 'https://thewetread.com/A.jpg', url: 'https://app.qgenda.com/link/view?linkKey=ddbafa6a-7fbb-4eec-b4bf-b3a3a6049e2d', keywords: '' },
+  { label: 'Medicine B', icon: 'https://thewetread.com/B.jpg', url: 'https://app.qgenda.com/link/view?linkKey=7334ab72-926d-417c-9abe-bc44dedd3daa', keywords: '' },
+  { label: 'Medicine C', icon: 'https://thewetread.com/C.jpg', url: 'https://app.qgenda.com/link/view?linkKey=cf57d22f-c023-4262-90a8-374743e17a6b', keywords: '' },
+  { label: 'Medicine D', icon: 'https://thewetread.com/D.jpg', url: 'https://app.qgenda.com/link/view?linkKey=4d82fd4e-f6e2-4073-b4b8-ba5d6a8ac2d6', keywords: '' },
+  { label: 'Medicine E', icon: 'https://thewetread.com/E.jpg', url: 'https://app.qgenda.com/link/view?linkKey=9cc046f5-6216-4af3-90dc-de7d2cbe046d', keywords: '' },
+  { label: 'Medicine F', icon: 'https://thewetread.com/F.jpg', url: 'https://app.qgenda.com/link/view?linkKey=34d04b08-6c1c-4a8d-9f3b-2fd393ddede6', keywords: '' },
+  { label: 'Medicine G', icon: 'https://thewetread.com/G.jpg', url: 'https://app.qgenda.com/link/view?linkKey=f688b33c-e255-4396-b32b-9f71aaff7af4', keywords: '' },
+  { label: 'Medicine H', icon: 'https://thewetread.com/H.jpg', url: 'https://app.qgenda.com/link/view?linkKey=c7a9e9d2-4a3b-493e-b6ce-698edb36c4cd', keywords: '' },
+  { label: 'Medicine J', icon: 'https://thewetread.com/J.jpg', url: 'https://app.qgenda.com/link/view?linkKey=30522dc3-2940-4310-8caa-a52ba806feaa', keywords: '' },
+  { label: 'Medicine K-N', icon: 'https://thewetread.com/KN.jpg', url: 'https://app.qgenda.com/link/view?linkKey=b775a6ee-8ad1-4e19-8f7f-1b4fbae000ec', keywords: '' },
+  { label: 'Medicine 1', icon: 'https://thewetread.com/1.jpg', url: 'https://app.qgenda.com/link/view?linkKey=436de694-dbc8-4791-8288-7a0326f643a7', keywords: '' },
+  { label: 'Medicine 2', icon: 'https://thewetread.com/2.jpg', url: 'https://app.qgenda.com/link/view?linkKey=8d22f038-820d-499e-9a96-2e6a55c38c41', keywords: '' },
+  { label: 'Medicine 3', icon: 'https://thewetread.com/3.jpg', url: 'https://app.qgenda.com/link/view?linkKey=a5545187-3dcb-4113-832c-fae8566d93a1', keywords: '' },
+  { label: 'Medicine 4', icon: 'https://thewetread.com/4.jpg', url: 'https://app.qgenda.com/link/view?linkKey=b5345e25-5cf2-4bb2-b4f6-96591b0fffb3', keywords: '' },
+  { label: 'Medicine 5', icon: 'https://thewetread.com/5.jpg', url: 'https://app.qgenda.com/link/view?linkKey=38a53100-6118-4c75-8366-d23bc4b15aaa', keywords: '' },
+  { label: 'Medicine 6', icon: 'https://thewetread.com/6.jpg', url: 'https://app.qgenda.com/link/view?linkKey=d1920eb2-6968-4224-ba20-206053e5556a', keywords: '' },
+  { label: 'Trauma / Pit Boss', icon: 'https://thewetread.com/trauma.jpg', url: 'https://app.qgenda.com/link/view?linkKey=0fd94536-a3a2-42be-983a-33c581ef676d', keywords: '' },
+]
+
 const radAssistantTiles = [
   { label: 'Peds Elbow Fractures', icon: 'https://radiologyassistant.nl/assets/elbow-fractures-in-children/a50979768b5d3a_critoe2.jpg', url: 'https://radiologyassistant.nl/pediatrics/hip/fractures-in-children-1', keywords: 'pediatric elbow fracture children critoe ossification' },
   { label: 'TI-RADS', icon: 'https://radiologyassistant.nl/assets/_1a-tab-tirads-landscape.jpg', url: 'https://radiologyassistant.nl/head-neck/ti-rads/ti-rads', keywords: 'thyroid nodule ultrasound classification' },
@@ -210,21 +248,24 @@ const radAssistantTiles = [
 const soloTiles = [
   // { label: 'Rad-Call', icon: 'https://external-content.duckduckgo.com/ip3/rad-call.com.ico', url: 'https://rad-call.com/app.html' },
   // { label: '9GAG', icon: 'https://cdn-icons-png.flaticon.com/512/2111/2111316.png', url: 'https://9gag.com' },
-  { label: 'Outlook', icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Microsoft_Outlook_Icon_%282025%E2%80%93present%29.svg/1280px-Microsoft_Outlook_Icon_%282025%E2%80%93present%29.svg.png', url: 'https://outlook.office365.com/mail/' },
-  { label: 'QGenda', icon: 'https://media.glassdoor.com/sqll/648643/qgenda-squarelogo-1428511017744.png', url: 'https://app.qgenda.com/Dashboard/Company/2b10db48-c04e-4028-86ca-940a03bd9dd0' },
-  { label: 'New Innovation', icon: 'https://thewetread.com/ni.png', url: 'https://www.new-innov.com/Login/Home.aspx' },
+  { label: 'Outlook', icon: 'https://thewetread.com/outlook.jpg', url: 'https://outlook.office365.com/mail/' },
+  { label: 'QGenda', icon: 'https://thewetread.com/qi.jpg', url: 'https://app.qgenda.com/Dashboard/Company/2b10db48-c04e-4028-86ca-940a03bd9dd0' },
+  { label: 'New Innovation', icon: 'https://thewetread.com/ni.jpg', url: 'https://www.new-innov.com/Login/Home.aspx' },
 
-  { label: 'RADPrimer', icon: 'https://3.bp.blogspot.com/-PTnXz9zohzM/WG4SabW5-0I/AAAAAAAAI58/vmoD9bUhDQA7zxvzI9T-bQUo_BiyX1-qQCLcB/s1600/elsevier-logo.jpg', url: 'https://app.radprimer.com/curriculum' },
-  { label: 'CaseStacks', icon: 'https://img.sur.ly/favicons/c/casestacks.com.ico', url: 'https://casestacks.com/dashboard' },
-  { label: 'AnkiWeb', icon: 'https://images.icon-icons.com/3053/PNG/512/anki_macos_bigsur_icon_190391.png', url: 'https://ankiweb.net/decks' },
-  { label: 'Pedi Bone-XRay', icon: 'https://pngimg.com/uploads/bone/bone_PNG47.png', url: 'https://bonexray.com/' },
-  { label: 'OpenEvidence', icon: 'https://thewetread.com/oe.png', url: 'https://www.openevidence.com/' },
-  { label: 'Qualified Health', icon: 'https://www.finsmes.com/wp-content/uploads/2026/03/Qualified-Health.jpeg', url: 'https://chat.qualifiedhealthai.com/' },
-  { label: 'UHS Anywhere', icon: 'https://external-content.duckduckgo.com/ip3/www.universityhealth.com.ico', url: 'https://anywhere.uhstx.com/logon/LogonPoint/index.html' },
-  { label: 'Radiographics', icon: 'https://external-content.duckduckgo.com/ip3/www.rsna.org.ico', url: 'https://pubs.rsna.org/journal/radiographics' },
-  { label: 'ACGME Cases', icon: 'https://thewetread.com/acgme_logo.jpg', url: 'https://apps.acgme.org/ads/CaseLogs/CaseEntry/Insert' },
+  { label: 'RADPrimer', icon: 'https://thewetread.com/radprimer.jpg', url: 'https://app.radprimer.com/curriculum' },
+  { label: 'CaseStacks', icon: 'https://thewetread.com/casestacks.jpg', url: 'https://casestacks.com/dashboard' },
+  { label: 'AnkiWeb', icon: 'https://thewetread.com/anki.jpg', url: 'https://ankiweb.net/decks' },
+  { label: 'Pedi Bone-XRay', icon: 'https://thewetread.com/bone.jpg', url: 'https://bonexray.com/' },
+  { label: 'OpenEvidence', icon: 'https://thewetread.com/OE.jpg', url: 'https://www.openevidence.com/' },
+  // { label: 'Qualified Health', icon: 'https://www.finsmes.com/wp-content/uploads/2026/03/Qualified-Health.jpeg', url: 'https://chat.qualifiedhealthai.com/' },
+  { label: 'UHS Anywhere', icon: 'https://thewetread.com/uhs.jpg', url: 'https://anywhere.uhstx.com/logon/LogonPoint/index.html' },
+  { label: 'Radiographics', icon: 'https://thewetread.com/R.jpg', url: 'https://pubs.rsna.org/journal/radiographics' },
+  { label: 'ACGME Cases', icon: 'https://thewetread.com/acgme.jpg', url: 'https://apps.acgme.org/ads/CaseLogs/CaseEntry/Insert' },
+  { label: 'Resident Direct', icon: 'https://thewetread.com/resident.jpg', url: 'https://login.mdstaff.com/uhssa/epriv?AuthCode=A347E2B4-BF88-40FE-A18A-FB8DBF112D91' },
+  // { label: 'Contact Staff', icon: 'https://thewetread.com/attending.png', url: 'https://app.qgenda.com/OnCallSearch/68e7ce6d-aae2-453b-bc2e-01918097b1f5?isFromLandingPage=true' },
 
 // https://app.radprimer.com/curriculum
+// 
 
 
 ]

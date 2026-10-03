@@ -122,7 +122,7 @@ defineProps({
   width: 80%;
   height: 80%;
   object-fit: contain;
-  border-radius: 4px;
+  border-radius: 14px;
 }
 
 </style>
